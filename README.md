@@ -34,4 +34,4 @@ Week 1 (November 6th- 12th): Port existing C++ code in xcode project
 Week 2 (November 13th - 20th): Performance test existing code, identify bottlenecks and possible solutions (Project checkpoint due November 16th)
 Week 3 (November 21st - 27th): Implement optimizations
 Week 4 (Novemeber 28th - December 3rd): Performance test optimized code, identify further refinements, and bottlenecks
-Week 5 (December 4th - December 10th): Create Presentation and Write Report (Presentation due November 8th, Report due November 11th)
+Week 5 (December 4th - December 10th): Create Presentation and Write Report (Presentation due December 8th, Report due December 11th)
