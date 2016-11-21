@@ -86,10 +86,14 @@ SlamSystem::SlamSystem(int w, int h, Eigen::Matrix3f K, bool enableSLAM)
 	if(SLAMEnabled)
 	{
 		trackableKeyFrameSearch = new TrackableKeyFrameSearch(keyFrameGraph,w,h,K);
-		constraintTracker = new Sim3Tracker(w,h,K);
-		constraintSE3Tracker = new SE3Tracker(w,h,K);
-		newKFTrackingReference = new TrackingReference();
-		candidateTrackingReference = new TrackingReference();
+		//constraintTracker = new Sim3Tracker(w,h,K);
+		//constraintSE3Tracker = new SE3Tracker(w,h,K);
+		//newKFTrackingReference = new TrackingReference();
+		//candidateTrackingReference = new TrackingReference();
+		constraintSE3Tracker = 0;
+		constraintTracker = 0;
+		newKFTrackingReference = 0;
+		candidateTrackingReference = 0;
 	}
 	else
 	{
@@ -112,8 +116,8 @@ SlamSystem::SlamSystem(int w, int h, Eigen::Matrix3f K, bool enableSLAM)
 
 	if(SLAMEnabled)
 	{
-		thread_constraint_search = boost::thread(&SlamSystem::constraintSearchThreadLoop, this);
-		thread_optimization = boost::thread(&SlamSystem::optimizationThreadLoop, this);
+		//thread_constraint_search = boost::thread(&SlamSystem::constraintSearchThreadLoop, this);
+		//thread_optimization = boost::thread(&SlamSystem::optimizationThreadLoop, this);
 	}
 
 
@@ -224,6 +228,7 @@ void SlamSystem::mappingThreadLoop()
 
 void SlamSystem::finalize()
 {
+	return;
 	printf("Finalizing Graph... finding final constraints!!\n");
 
 	lastNumConstraintsAddedOnFullRetrack = 1;
@@ -265,6 +270,7 @@ void SlamSystem::finalize()
 
 void SlamSystem::constraintSearchThreadLoop()
 {
+	return;
 	printf("Started  constraint search thread!\n");
 	
 	boost::unique_lock<boost::mutex> lock(newKeyFrameMutex);
@@ -358,6 +364,7 @@ void SlamSystem::constraintSearchThreadLoop()
 
 void SlamSystem::optimizationThreadLoop()
 {
+	return;
 	printf("Started optimization thread \n");
 
 	while(keepRunning)
@@ -654,7 +661,6 @@ void SlamSystem::addTimingSamples()
 
 void SlamSystem::debugDisplayDepthMap()
 {
-
 
 	map->debugPlotDepthMap();
 	double scale = 1;

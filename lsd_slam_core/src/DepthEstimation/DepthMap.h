@@ -20,7 +20,7 @@
 
 #pragma once
 #include "util/EigenCoreInclude.h"
-#include "opencv2/core/core.hpp"
+#include "opencv2/opencv.hpp"
 #include "util/settings.h"
 #include "util/IndexThreadReduce.h"
 #include "util/SophusUtil.h"

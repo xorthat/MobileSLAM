@@ -24,6 +24,7 @@
 
 #include <string>
 #include <unordered_set>
+#include <iostream>
 
 #include <boost/thread.hpp>
 
@@ -69,7 +70,11 @@ void displayThreadLoop()
 					openWindows.insert(displayQueue.back().name);
 				}
 			}
-			cv::imshow(displayQueue.back().name, displayQueue.back().img);
+			//cv::imshow(displayQueue.back().name, displayQueue.back().img);
+			cv::imshow("displayImg", displayQueue.back().img);
+			//std::cout<<displayQueue.back().img.size()<<std::endl;
+			//cv::waitKey(1);
+			//cv::imwrite("temp.jpg", displayQueue.back().img);
 			displayQueue.pop_back();
 		}
 	}
@@ -109,9 +114,10 @@ void displayImage(const char* windowName, const cv::Mat& image, bool autoSize)
 				openWindows.insert(windowName);
 			}
 		}
+		std::cout<<"here"<<std::endl;
 		cv::imshow(windowName, image);
 	}
-	//cv::waitKey(1);
+	cv::waitKey(1);
 }
 
 int waitKey(int milliseconds)

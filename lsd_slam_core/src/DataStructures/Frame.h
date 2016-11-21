@@ -160,8 +160,10 @@ public:
 		Eigen::aligned_allocator< Frame* > > neighbors;
 
 	/** Multi-Map indicating for which other keyframes with which initialization tracking failed.*/
+	//std::unordered_multimap< Frame*, Sim3, std::hash<Frame*>, std::equal_to<Frame*>,
+	//	Eigen::aligned_allocator< std::pair< const Frame* , Sim3> > > trackingFailed;
 	std::unordered_multimap< Frame*, Sim3, std::hash<Frame*>, std::equal_to<Frame*>,
-		Eigen::aligned_allocator< std::pair<const Frame*,Sim3> > > trackingFailed;
+		Eigen::aligned_allocator< std::pair< Frame* const, Sim3> > > trackingFailed;
 
 
 	// flag set when depth is updated.
