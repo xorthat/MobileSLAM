@@ -22,7 +22,7 @@ set(CMAKE_MODULE_PATH   ${PROJECT_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH})
 find_package(Eigen3 REQUIRED)
 find_package(OpenCV REQUIRED)
 find_package(SuiteParse REQUIRED) # Apparently needed by g2o
-find_package(X11 REQUIRED)
+#find_package(X11 REQUIRED)
 find_package(Boost COMPONENTS thread system REQUIRED)
 find_package(Threads REQUIRED)
 # FabMap
