@@ -1,4 +1,0 @@
-/Users/picard/CodeNew/MobileSLAM/lsd_slam_core/build/CMakeFiles/edit_cache.dir
-/Users/picard/CodeNew/MobileSLAM/lsd_slam_core/build/CMakeFiles/rebuild_cache.dir
-/Users/picard/CodeNew/MobileSLAM/lsd_slam_core/build/CMakeFiles/dataset_slam.dir
-/Users/picard/CodeNew/MobileSLAM/lsd_slam_core/build/CMakeFiles/lsdslam.dir
