@@ -255,8 +255,12 @@ int main( int argc, char** argv )
 			system->trackFrame(image.data, runningIDX ,hz == 0,fakeTimeStamp);
 			std::cout<<"index is "<<runningIDX<<std::endl;	
 		}
-		cv::imshow("DisplayImg", image);
-		cv::waitKey(1);
+		if (!system->displayMatQueue.empty()){
+			std::cout<<"queue size is "<<system->displayMatQueue.size()<<std::endl;
+			std::string image_name = std::to_string(runningIDX) + "_temp.jpg";
+			cv::imwrite(image_name, system->displayMatQueue.front());
+			system->displayMatQueue.pop();
+		}
 		runningIDX++;
 		fakeTimeStamp+=0.03;
 
@@ -282,8 +286,15 @@ int main( int argc, char** argv )
 		//	break;
 	}
 
+	while(!system->displayMatQueue.empty()){
+		std::cout<<"queue size is "<<system->displayMatQueue.size()<<std::endl;
+		std::string image_name = std::to_string(runningIDX) + "_temp.jpg";
+		cv::imwrite(image_name, system->displayMatQueue.front());
+		system->displayMatQueue.pop();
+		runningIDX++;
+	}
 
-	system->finalize();
+	//system->finalize();
 
 
 

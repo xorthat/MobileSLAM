@@ -141,8 +141,8 @@ SlamSystem::~SlamSystem()
 	newConstraintCreatedSignal.notify_all();
 
 	thread_mapping.join();
-	thread_constraint_search.join();
-	thread_optimization.join();
+	//thread_constraint_search.join();
+	//thread_optimization.join();
 	printf("DONE waiting for SlamSystem's threads to exit\n");
 
 	if(trackableKeyFrameSearch != 0) delete trackableKeyFrameSearch;
@@ -690,6 +690,7 @@ void SlamSystem::debugDisplayDepthMap()
 
 	if(onSceenInfoDisplay)
 		printMessageOnCVImage(map->debugImageDepth, buf1, buf2);
+	displayMatQueue.push(map->debugImageDepth);
 	if (displayDepthMap)
 		Util::displayImage( "DebugWindow DEPTH", map->debugImageDepth, false );
 

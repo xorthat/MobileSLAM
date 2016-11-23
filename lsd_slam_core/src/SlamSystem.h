@@ -20,6 +20,8 @@
 
 #pragma once
 #include <vector>
+#include <queue>
+
 #include <boost/thread.hpp>
 #include <boost/thread/shared_mutex.hpp>
 #include <boost/thread/condition_variable.hpp>
@@ -110,7 +112,7 @@ public:
 	
 	std::vector<FramePoseStruct*, Eigen::aligned_allocator<lsd_slam::FramePoseStruct*> > getAllPoses();
 
-
+	std::queue<cv::Mat> displayMatQueue;
 
 	float msTrackFrame, msOptimizationIteration, msFindConstraintsItaration, msFindReferences;
 	int nTrackFrame, nOptimizationIteration, nFindConstraintsItaration, nFindReferences;
@@ -202,8 +204,8 @@ private:
 
 	// threads
 	boost::thread thread_mapping;
-	boost::thread thread_constraint_search;
-	boost::thread thread_optimization;
+	//boost::thread thread_constraint_search;
+	//boost::thread thread_optimization;
 	bool keepRunning; // used only on destruction to signal threads to finish.
 
 
