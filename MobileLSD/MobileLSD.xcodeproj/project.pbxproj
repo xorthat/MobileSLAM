@@ -15,7 +15,7 @@
 		6C4475AF1DE7A1E400316B64 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6C4475AD1DE7A1E400316B64 /* LaunchScreen.storyboard */; };
 		6C4475BA1DE7A1E400316B64 /* MobileLSDTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C4475B91DE7A1E400316B64 /* MobileLSDTests.m */; };
 		6C4475C51DE7A1E400316B64 /* MobileLSDUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C4475C41DE7A1E400316B64 /* MobileLSDUITests.m */; };
-		6C4475D31DE7A41F00316B64 /* libboost.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C4475D21DE7A41F00316B64 /* libboost.a */; };
+		6C4475D51DE7CED200316B64 /* libboost.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C4475D41DE7CED200316B64 /* libboost.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,7 +52,7 @@
 		6C4475C01DE7A1E400316B64 /* MobileLSDUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MobileLSDUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6C4475C41DE7A1E400316B64 /* MobileLSDUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MobileLSDUITests.m; sourceTree = "<group>"; };
 		6C4475C61DE7A1E400316B64 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6C4475D21DE7A41F00316B64 /* libboost.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost.a; path = ../../ofxiOSBoost/libs/boost/ios/libboost.a; sourceTree = "<group>"; };
+		6C4475D41DE7CED200316B64 /* libboost.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost.a; path = boost/ios/libboost.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,7 +60,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6C4475D31DE7A41F00316B64 /* libboost.a in Frameworks */,
+				6C4475D51DE7CED200316B64 /* libboost.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -84,7 +84,7 @@
 		6C4475931DE7A1E400316B64 = {
 			isa = PBXGroup;
 			children = (
-				6C4475D21DE7A41F00316B64 /* libboost.a */,
+				6C4475D41DE7CED200316B64 /* libboost.a */,
 				6C44759E1DE7A1E400316B64 /* MobileLSD */,
 				6C4475B81DE7A1E400316B64 /* MobileLSDTests */,
 				6C4475C31DE7A1E400316B64 /* MobileLSDUITests */,
@@ -419,10 +419,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				HEADER_SEARCH_PATHS = "\"/Users/Geoff/Documents/16-623 Computer Vision Mobile App/project/ofxiOSBoost/libs/boost/include\"";
+				HEADER_SEARCH_PATHS = boost/include/;
 				INFOPLIST_FILE = MobileLSD/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "\"/Users/Geoff/Documents/16-623 Computer Vision Mobile App/project/ofxiOSBoost/libs/boost/ios\"";
+				LIBRARY_SEARCH_PATHS = (
+					boost/lib,
+					"$(PROJECT_DIR)/boost/ios",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = guanhanw.MobileLSD;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -432,10 +435,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				HEADER_SEARCH_PATHS = "\"/Users/Geoff/Documents/16-623 Computer Vision Mobile App/project/ofxiOSBoost/libs/boost/include\"";
+				HEADER_SEARCH_PATHS = boost/include/;
 				INFOPLIST_FILE = MobileLSD/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "\"/Users/Geoff/Documents/16-623 Computer Vision Mobile App/project/ofxiOSBoost/libs/boost/ios\"";
+				LIBRARY_SEARCH_PATHS = (
+					boost/lib,
+					"$(PROJECT_DIR)/boost/ios",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = guanhanw.MobileLSD;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
