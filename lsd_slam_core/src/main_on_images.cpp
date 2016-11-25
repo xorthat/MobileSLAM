@@ -175,9 +175,9 @@ int main( int argc, char** argv )
 	Sophus::Matrix3f K;
 	K << fx, 0.0, cx, 0.0, fy, cy, 0.0, 0.0, 1.0;
 
-    cv::namedWindow("displayImg", cv::WINDOW_NORMAL); 
-	cv::Mat empty_image(h, w, CV_8UC1);
-	cv::imshow("displayImg", empty_image);
+    //cv::namedWindow("displayImg", cv::WINDOW_NORMAL); 
+	//cv::Mat empty_image(h, w, CV_8UC1);
+	//cv::imshow("displayImg", empty_image);
 
 	// make output wrapper. just set to zero if no output is required.
 	//Output3DWrapper* outputWrapper = new ROSOutput3DWrapper(w,h);

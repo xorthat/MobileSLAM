@@ -87,10 +87,10 @@ public:
 	void trackFrame(uchar* image, unsigned int frameID, bool blockUntilMapped, double timestamp);
 
 	// finalizes the system, i.e. blocks and does all remaining loop-closures etc.
-	void finalize();
+	//void finalize();
 
 	/** Does an offline optimization step. */
-	void optimizeGraph();
+	//void optimizeGraph();
 
 	inline Frame* getCurrentKeyframe() {return currentKeyFrame.get();}	// not thread-safe!
 
@@ -98,7 +98,7 @@ public:
 	SE3 getCurrentPoseEstimate();
 
 	/** Sets the visualization where point clouds and camera poses will be sent to. */
-	void setVisualization(Output3DWrapper* outputWrapper);
+	//void setVisualization(Output3DWrapper* outputWrapper);
 
 	void requestDepthMapScreenshot(const std::string& filename);
 
@@ -238,7 +238,7 @@ private:
 
 	void mappingThreadLoop();
 
-	void finishCurrentKeyframe();
+	//void finishCurrentKeyframe();
 	void discardCurrentKeyframe();
 
 	void changeKeyframe(bool noCreate, bool force, float maxScore);

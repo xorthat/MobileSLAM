@@ -66,7 +66,7 @@ set(lsd_SOURCE_FILES
   ${PROJECT_SOURCE_DIR}/src/Tracking/SE3Tracker.cpp
   ${PROJECT_SOURCE_DIR}/src/Tracking/TrackingReference.cpp
   ${PROJECT_SOURCE_DIR}/src/IOWrapper/Timestamp.cpp
-  ${PROJECT_SOURCE_DIR}/src/GlobalMapping/FabMap.cpp
+  #${PROJECT_SOURCE_DIR}/src/GlobalMapping/FabMap.cpp
   ${PROJECT_SOURCE_DIR}/src/GlobalMapping/KeyFrameGraph.cpp
   ${PROJECT_SOURCE_DIR}/src/GlobalMapping/g2oTypeSim3Sophus.cpp
   ${PROJECT_SOURCE_DIR}/src/GlobalMapping/TrackableKeyFrameSearch.cpp
@@ -97,7 +97,7 @@ add_library(lsdslam SHARED ${SOURCE_FILES})
 #target_link_libraries(lsdslam "/usr/local/lib/libg2o_stuff.dylib")
 #link_directories(/usr/local/lib)
 #target_link_libraries(lsdslam ${FABMAP_LIB} g2o_core g2o_stuff csparse cxsparse g2o_solver_csparse g2o_csparse_extension g2o_types_sim3 g2o_types_sba X11)
-target_link_libraries(lsdslam ${FABMAP_LIB} g2o_core g2o_stuff csparse cxsparse g2o_solver_csparse g2o_csparse_extension g2o_types_sim3 g2o_types_sba )
+target_link_libraries(lsdslam g2o_core g2o_stuff csparse cxsparse g2o_solver_csparse g2o_csparse_extension g2o_types_sim3 g2o_types_sba )
 
 target_link_libraries(lsdslam ${OpenCV_LIBS})
 target_link_libraries(lsdslam ${Boost_LIBRARIES})
