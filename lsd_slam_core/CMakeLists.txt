@@ -45,7 +45,7 @@ add_definitions("-DENABLE_SSE")
 # Also add some useful compiler flag
 set(CMAKE_CXX_FLAGS
    #"${CMAKE_CXX_FLAGS} ${SSE_FLAGS} -march=native  -std=c++0x"
-   "${CMAKE_CXX_FLAGS} ${SSE_FLAGS} -march=native  -std=c++11 -Wall"
+   "${CMAKE_CXX_FLAGS} ${SSE_FLAGS} -march=native  -std=c++11 -Wall" 
 ) 
 
 # Set source files
@@ -54,7 +54,7 @@ set(lsd_SOURCE_FILES
   ${PROJECT_SOURCE_DIR}/src/DataStructures/FramePoseStruct.cpp
   ${PROJECT_SOURCE_DIR}/src/DataStructures/FrameMemory.cpp
   ${PROJECT_SOURCE_DIR}/src/SlamSystem.cpp
-  ${PROJECT_SOURCE_DIR}/src/LiveSLAMWrapper.cpp
+  #${PROJECT_SOURCE_DIR}/src/LiveSLAMWrapper.cpp
   ${PROJECT_SOURCE_DIR}/src/DepthEstimation/DepthMap.cpp
   ${PROJECT_SOURCE_DIR}/src/DepthEstimation/DepthMapPixelHypothesis.cpp
   ${PROJECT_SOURCE_DIR}/src/util/globalFuncs.cpp
