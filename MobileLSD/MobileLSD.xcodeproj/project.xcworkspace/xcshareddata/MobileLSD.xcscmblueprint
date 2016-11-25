@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "860E2E2878F8B589FA882D71593D2D488C1C3541",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "860E2E2878F8B589FA882D71593D2D488C1C3541" : 0,
+    "9FA95DEE4EB174E673372E30E3D25C64477F8D05" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "E04E59B6-F648-474B-AA17-6F3C24FC1124",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "860E2E2878F8B589FA882D71593D2D488C1C3541" : "MobileSLAM\/",
+    "9FA95DEE4EB174E673372E30E3D25C64477F8D05" : "ofxiOSBoost\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "MobileLSD",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "MobileLSD\/MobileLSD.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/xorthat\/MobileSLAM.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "860E2E2878F8B589FA882D71593D2D488C1C3541"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/danoli3\/ofxiOSBoost.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "9FA95DEE4EB174E673372E30E3D25C64477F8D05"
+    }
+  ]
+}
