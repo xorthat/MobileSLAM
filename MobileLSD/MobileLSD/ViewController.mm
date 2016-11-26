@@ -10,7 +10,10 @@
 #include <boost/thread.hpp>
 #include <boost/chrono.hpp>
 #include <iostream>
+
+
 boost::mutex mutex;
+
 int count = 0;
 @interface ViewController ()
 
@@ -25,7 +28,6 @@ int count = 0;
     boost::thread_group threads;
     for (int i = 0; i < 3; ++i)
         threads.create_thread(&increment_count);
-    
 
 }
 

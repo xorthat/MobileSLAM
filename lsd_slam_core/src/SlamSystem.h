@@ -27,7 +27,7 @@
 #include <boost/thread/condition_variable.hpp>
 #include <boost/thread/locks.hpp>
 #include "util/settings.h"
-#include "IOWrapper/Timestamp.h"
+//#include "IOWrapper/Timestamp.h"
 #include "opencv2/core/core.hpp"
 
 #include "util/SophusUtil.h"
@@ -40,17 +40,16 @@ namespace lsd_slam
 {
 
 class TrackingReference;
-class KeyFrameGraph;
 class SE3Tracker;
 class Sim3Tracker;
 class DepthMap;
 class Frame;
 class DataSet;
-class LiveSLAMWrapper;
-class Output3DWrapper;
-class TrackableKeyFrameSearch;
+//class LiveSLAMWrapper;
+//class Output3DWrapper;
+//class TrackableKeyFrameSearch;
 class FramePoseStruct;
-struct KFConstraintStruct;
+//struct KFConstraintStruct;
 
 
 typedef Eigen::Matrix<float, 7, 7> Matrix7x7;
@@ -104,11 +103,7 @@ public:
 
 	bool doMappingIteration();
 
-	int findConstraintsForNewKeyFrames(Frame* newKeyFrame, bool forceParent=true, bool useFABMAP=true, float closeCandidatesTH=1.0);
 	
-	bool optimizationIteration(int itsPerTry, float minChange);
-	
-	void publishKeyframeGraph();
 	
 	std::vector<FramePoseStruct*, Eigen::aligned_allocator<lsd_slam::FramePoseStruct*> > getAllPoses();
 
@@ -121,7 +116,11 @@ public:
 
 
 private:
-
+	inline float getRefFrameScore(float distanceSquared, float usage){
+		float KFDistWeight = 4;
+		float KFUsageWeight = 3;
+		return distanceSquared * KFDistWeight * KFDistWeight + (1 - usage) * (1 - usage) * KFUsageWeight * KFUsageWeight;
+	}
 
 	// ============= EXCLUSIVELY TRACKING THREAD (+ init) ===============
 	TrackingReference* trackingReference; // tracking reference for current keyframe. only used by tracking.
@@ -140,7 +139,7 @@ private:
 
 
 	// ============= EXCLUSIVELY FIND-CONSTRAINT THREAD (+ init) =============
-	TrackableKeyFrameSearch* trackableKeyFrameSearch;
+	//TrackableKeyFrameSearch* trackableKeyFrameSearch;
 	Sim3Tracker* constraintTracker;
 	SE3Tracker* constraintSE3Tracker;
 	TrackingReference* newKFTrackingReference;
@@ -170,8 +169,8 @@ private:
 
 
 	// Individual / no locking
-	Output3DWrapper* outputWrapper;	// no lock required
-	KeyFrameGraph* keyFrameGraph;	// has own locks
+	//Output3DWrapper* outputWrapper;	// no lock required
+	Frame* keyFrame_replaceg;
 
 
 
@@ -219,7 +218,6 @@ private:
 
 
 	// optimization merging. SET in Optimization, merged in Mapping.
-	bool haveUnmergedOptimizationOffset;
 
 	// mutex to lock frame pose consistency. within a shared lock of this, *->getScaledCamToWorld() is
 	// GUARANTEED to give the same result each call, and to be compatible to each other.
@@ -233,13 +231,8 @@ private:
 
 
 	/** Merges the current keyframe optimization offset to all working entities. */
-	void mergeOptimizationOffset();
-	
 
 	void mappingThreadLoop();
-
-	//void finishCurrentKeyframe();
-	void discardCurrentKeyframe();
 
 	void changeKeyframe(bool noCreate, bool force, float maxScore);
 	void createNewCurrentKeyframe(std::shared_ptr<Frame> newKeyframeCandidate);
@@ -248,28 +241,9 @@ private:
 
 	bool updateKeyframe();
 
-	void addTimingSamples();
 
 	void debugDisplayDepthMap();
 
-	void takeRelocalizeResult();
-
-	void constraintSearchThreadLoop();
-	/** Calculates a scale independent error norm for reciprocal tracking results a and b with associated information matrices. */
-	float tryTrackSim3(
-			TrackingReference* A, TrackingReference* B,
-			int lvlStart, int lvlEnd,
-			bool useSSE,
-			Sim3 &AtoB, Sim3 &BtoA,
-			KFConstraintStruct* e1=0, KFConstraintStruct* e2=0);
-
-	void testConstraint(
-			Frame* candidate,
-			KFConstraintStruct* &e1_out, KFConstraintStruct* &e2_out,
-			Sim3 candidateToFrame_initialEstimate,
-			float strictness);
-
-	void optimizationThreadLoop();
 
 
 	

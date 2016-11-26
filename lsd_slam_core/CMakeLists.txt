@@ -21,7 +21,7 @@ set(CMAKE_MODULE_PATH   ${PROJECT_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH})
 
 find_package(Eigen3 REQUIRED)
 find_package(OpenCV REQUIRED)
-find_package(SuiteParse REQUIRED) # Apparently needed by g2o
+#find_package(SuiteParse REQUIRED) # Apparently needed by g2o
 #find_package(X11 REQUIRED)
 find_package(Boost COMPONENTS thread system REQUIRED)
 find_package(Threads REQUIRED)
@@ -65,17 +65,17 @@ set(lsd_SOURCE_FILES
   ${PROJECT_SOURCE_DIR}/src/Tracking/Relocalizer.cpp
   ${PROJECT_SOURCE_DIR}/src/Tracking/SE3Tracker.cpp
   ${PROJECT_SOURCE_DIR}/src/Tracking/TrackingReference.cpp
-  ${PROJECT_SOURCE_DIR}/src/IOWrapper/Timestamp.cpp
+  #${PROJECT_SOURCE_DIR}/src/IOWrapper/Timestamp.cpp
   #${PROJECT_SOURCE_DIR}/src/GlobalMapping/FabMap.cpp
-  ${PROJECT_SOURCE_DIR}/src/GlobalMapping/KeyFrameGraph.cpp
-  ${PROJECT_SOURCE_DIR}/src/GlobalMapping/g2oTypeSim3Sophus.cpp
-  ${PROJECT_SOURCE_DIR}/src/GlobalMapping/TrackableKeyFrameSearch.cpp
+  #${PROJECT_SOURCE_DIR}/src/GlobalMapping/KeyFrameGraph.cpp
+  #${PROJECT_SOURCE_DIR}/src/GlobalMapping/g2oTypeSim3Sophus.cpp
+  #${PROJECT_SOURCE_DIR}/src/GlobalMapping/TrackableKeyFrameSearch.cpp
 )
 set(SOURCE_FILES
   ${lsd_SOURCE_FILES}
   #${PROJECT_SOURCE_DIR}/src/IOWrapper/ROS/ROSImageStreamThread.cpp
   #${PROJECT_SOURCE_DIR}/src/IOWrapper/ROS/ROSOutput3DWrapper.cpp
-  ${PROJECT_SOURCE_DIR}/src/IOWrapper/OpenCV/ImageDisplay_OpenCV.cpp
+  #${PROJECT_SOURCE_DIR}/src/IOWrapper/OpenCV/ImageDisplay_OpenCV.cpp
 )
 
 include_directories(
@@ -84,8 +84,8 @@ include_directories(
   ${PROJECT_SOURCE_DIR}/src
   ${PROJECT_SOURCE_DIR}/thirdparty/Sophus
   ${Boost_INCLUDE_DIRS}
-  ${CSPARSE_INCLUDE_DIR} #Has been set by SuiteParse
-  ${CHOLMOD_INCLUDE_DIR} #Has been set by SuiteParse
+  #${CSPARSE_INCLUDE_DIR} #Has been set by SuiteParse
+  #${CHOLMOD_INCLUDE_DIR} #Has been set by SuiteParse
 )
 
 
@@ -97,7 +97,7 @@ add_library(lsdslam SHARED ${SOURCE_FILES})
 #target_link_libraries(lsdslam "/usr/local/lib/libg2o_stuff.dylib")
 #link_directories(/usr/local/lib)
 #target_link_libraries(lsdslam ${FABMAP_LIB} g2o_core g2o_stuff csparse cxsparse g2o_solver_csparse g2o_csparse_extension g2o_types_sim3 g2o_types_sba X11)
-target_link_libraries(lsdslam g2o_core g2o_stuff csparse cxsparse g2o_solver_csparse g2o_csparse_extension g2o_types_sim3 g2o_types_sba )
+target_link_libraries(lsdslam)
 
 target_link_libraries(lsdslam ${OpenCV_LIBS})
 target_link_libraries(lsdslam ${Boost_LIBRARIES})

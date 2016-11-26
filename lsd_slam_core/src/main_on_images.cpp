@@ -184,6 +184,7 @@ int main( int argc, char** argv )
 
 
 	// make slam system
+	doSlam = false;
 	SlamSystem* system = new SlamSystem(w, h, K, doSlam);
 	//system->setVisualization(outputWrapper);
 
@@ -270,14 +271,14 @@ int main( int argc, char** argv )
 		if(fullResetRequested)
 		{
 
-			printf("FULL RESET!\n");
-			delete system;
+			//printf("FULL RESET!\n");
+			//delete system;
 
-			system = new SlamSystem(w, h, K, doSlam);
-			//system->setVisualization(outputWrapper);
+			//system = new SlamSystem(w, h, K, doSlam);
+			////system->setVisualization(outputWrapper);
 
-			fullResetRequested = false;
-			runningIDX = 0;
+			//fullResetRequested = false;
+			//runningIDX = 0;
 		}
 
 		//ros::spinOnce();
