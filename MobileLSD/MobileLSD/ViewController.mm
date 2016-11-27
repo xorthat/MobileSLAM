@@ -25,6 +25,7 @@ int count = 0;
     lsd_slam::SlamSystem* system;
     int cam_width;
     int cam_height;
+    int runningIdx;
 }
 @end
 
@@ -70,10 +71,11 @@ int count = 0;
     [fpsView_ setFont:[UIFont systemFontOfSize:18]]; // Set the Font size
     [self.view addSubview:fpsView_];
     
-    float fx = 905;
-    float fy = 2144;
-    float cx = 540;
-    float cy = 960;
+    runningIdx = 0;
+    float fx = 3.3;
+    float fy = 3.3;
+    float cx = 0;
+    float cy = 0;
     bool doSlam = false;
     Sophus::Matrix3f K;
     K << fx, 0.0, cx, 0.0, fy, cy, 0.0, 0.0, 1.0;
@@ -99,8 +101,25 @@ void increment_count()
 
 - (void) processImage:(cv:: Mat &)image
 {
+    boost::mutex processMutex;
+    processMutex.lock();
+
     cv::resize(image, image, cv::Size(cam_width,cam_height));
-    
+    if(runningIdx == 0)
+    {
+        std::cout<<"index is "<<runningIdx<<std::endl;
+        system->randomInit(image.data, curr_time_, runningIdx);
+    }
+    else{
+        system->trackFrame(image.data, runningIdx , 0, curr_time_);
+        std::cout<<"index is "<<runningIdx<<std::endl;
+    }
+    if (!system->displayMatQueue.empty()){
+        std::cout<<"queue size is "<<system->displayMatQueue.size()<<std::endl;
+        image = system->displayMatQueue.front();
+        system->displayMatQueue.pop();
+    }
+    runningIdx++;
     // Finally estimate the frames per second (FPS)
     int64 next_time = cv::getTickCount(); // Get the next time stamp
     float fps = (float)cv::getTickFrequency()/(next_time - curr_time_); // Estimate the fps
@@ -112,6 +131,7 @@ void increment_count()
     dispatch_sync(dispatch_get_main_queue(), ^{
         fpsView_.text = fps_NSStr;
     });
+    processMutex.unlock();
     
 }
 
