@@ -18,30 +18,70 @@
 boost::mutex mutex;
 
 int count = 0;
-@interface ViewController ()
-
+@interface ViewController (){
+    UIImageView *imageView_; // Setup the image view
+    UITextView *fpsView_; // Display the current FPS
+    int64 curr_time_; // Store the current time
+    lsd_slam::SlamSystem* system;
+    int cam_width;
+    int cam_height;
+}
 @end
 
 @implementation ViewController
 
+@synthesize videoCamera;
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
-    //boost::thread t1;
-    //boost::thread_group threads;
-    //for (int i = 0; i < 3; ++i)
-    //    threads.create_thread(&increment_count);
-	float fx = 905;
-	float fy = 2144;
-	float cx = 540;
-	float cy = 960;
-	Sophus::Matrix3f K;
-	K << fx, 0.0, cx, 0.0, fy, cy, 0.0, 0.0, 1.0;
-	float w = 480;
-	float h = 640;
-	bool doSlam = false;
-	lsd_slam::SlamSystem* system = new lsd_slam::SlamSystem(w, h, K, doSlam);
-	delete system;
+    
+    cam_width = 352/2;
+    cam_height = 288/2;
+    
+    // Take into account size of camera input
+    int view_width = self.view.frame.size.width;
+    int view_height = (int)(cam_height*self.view.frame.size.width/cam_width);
+    int offset = (self.view.frame.size.height - view_height)/2;
+    
+    imageView_ = [[UIImageView alloc] initWithFrame:CGRectMake(0.0, offset, view_width, view_height)];
+    
+    //[imageView_ setContentMode:UIViewContentModeScaleAspectFill]; (does not work)
+    [self.view addSubview:imageView_]; // Add the view
+    
+    // Initialize the video camera
+    self.videoCamera = [[CvVideoCamera alloc] initWithParentView:imageView_];
+    self.videoCamera.delegate = self;
+    self.videoCamera.defaultAVCaptureDevicePosition = AVCaptureDevicePositionBack;
+    self.videoCamera.defaultAVCaptureVideoOrientation = AVCaptureVideoOrientationPortrait;
+    self.videoCamera.defaultFPS = 30; // Set the frame rate
+    self.videoCamera.grayscaleMode = YES; // Get grayscale
+    self.videoCamera.rotateVideo = YES; // Rotate video so everything looks correct
+    
+    // Choose these depending on the camera input chosen
+        self.videoCamera.defaultAVCaptureSessionPreset = AVCaptureSessionPreset352x288;
+//    self.videoCamera.defaultAVCaptureSessionPreset = AVCaptureSessionPreset640x480;
+    
+    // Finally add the FPS text to the view
+    fpsView_ = [[UITextView alloc] initWithFrame:CGRectMake(0,15,view_width,std::max(offset,35))];
+    [fpsView_ setOpaque:false]; // Set to be Opaque
+    [fpsView_ setBackgroundColor:[UIColor clearColor]]; // Set background color to be clear
+    [fpsView_ setTextColor:[UIColor redColor]]; // Set text to be RED
+    [fpsView_ setFont:[UIFont systemFontOfSize:18]]; // Set the Font size
+    [self.view addSubview:fpsView_];
+    
+    float fx = 905;
+    float fy = 2144;
+    float cx = 540;
+    float cy = 960;
+    bool doSlam = false;
+    Sophus::Matrix3f K;
+    K << fx, 0.0, cx, 0.0, fy, cy, 0.0, 0.0, 1.0;
+    lsd_slam::SlamSystem* system = new lsd_slam::SlamSystem(cam_width, cam_height, K, doSlam);
+    
+    // Finally show the output
+    [videoCamera start];
+    // Do any additional setup after loading the view, typically from a nib.
 
 }
 
@@ -55,6 +95,24 @@ void increment_count()
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void) processImage:(cv:: Mat &)image
+{
+    cv::resize(image, image, cv::Size(cam_width,cam_height));
+    
+    // Finally estimate the frames per second (FPS)
+    int64 next_time = cv::getTickCount(); // Get the next time stamp
+    float fps = (float)cv::getTickFrequency()/(next_time - curr_time_); // Estimate the fps
+    curr_time_ = next_time; // Update the time
+    NSString *fps_NSStr = [NSString stringWithFormat:@"FPS = %2.2f",fps];
+    
+    // Have to do this so as to communicate with the main thread
+    // to update the text display
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        fpsView_.text = fps_NSStr;
+    });
+    
 }
 
 @end

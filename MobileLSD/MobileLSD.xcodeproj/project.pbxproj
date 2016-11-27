@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		112221FF1DEA622C00626398 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 112221FE1DEA622C00626398 /* AVFoundation.framework */; };
+		112222011DEA623400626398 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 112222001DEA623400626398 /* CoreMedia.framework */; };
+		112222031DEA623A00626398 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 112222021DEA623A00626398 /* AssetsLibrary.framework */; };
+		112222051DEA624200626398 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 112222041DEA624200626398 /* CoreVideo.framework */; };
+		112222071DEA624A00626398 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 112222061DEA624A00626398 /* QuartzCore.framework */; };
 		6C371E761DE94E0B00ADC776 /* main_on_images.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6C371E751DE94E0B00ADC776 /* main_on_images.cpp */; };
 		6C371EB41DE94EA000ADC776 /* Frame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6C371E941DE94EA000ADC776 /* Frame.cpp */; };
 		6C371EB51DE94EA000ADC776 /* FrameMemory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6C371E961DE94EA000ADC776 /* FrameMemory.cpp */; };
@@ -83,6 +88,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		112221FE1DEA622C00626398 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		112222001DEA623400626398 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		112222021DEA623A00626398 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
+		112222041DEA624200626398 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
+		112222061DEA624A00626398 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		6C371E751DE94E0B00ADC776 /* main_on_images.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main_on_images.cpp; sourceTree = "<group>"; };
 		6C371E941DE94EA000ADC776 /* Frame.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Frame.cpp; sourceTree = "<group>"; };
 		6C371E951DE94EA000ADC776 /* Frame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Frame.h; sourceTree = "<group>"; };
@@ -449,6 +459,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				112222071DEA624A00626398 /* QuartzCore.framework in Frameworks */,
+				112222051DEA624200626398 /* CoreVideo.framework in Frameworks */,
+				112222031DEA623A00626398 /* AssetsLibrary.framework in Frameworks */,
+				112222011DEA623400626398 /* CoreMedia.framework in Frameworks */,
+				112221FF1DEA622C00626398 /* AVFoundation.framework in Frameworks */,
 				6C3721C91DE9579F00ADC776 /* libjpeg.a in Frameworks */,
 				6C3721C71DE9564100ADC776 /* opencv2.framework in Frameworks */,
 				6C4475D51DE7CED200316B64 /* libboost.a in Frameworks */,
@@ -472,6 +487,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		112221FD1DEA622C00626398 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				112222061DEA624A00626398 /* QuartzCore.framework */,
+				112222041DEA624200626398 /* CoreVideo.framework */,
+				112222021DEA623A00626398 /* AssetsLibrary.framework */,
+				112222001DEA623400626398 /* CoreMedia.framework */,
+				112221FE1DEA622C00626398 /* AVFoundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		6C371E931DE94EA000ADC776 /* DataStructures */ = {
 			isa = PBXGroup;
 			children = (
@@ -1176,8 +1203,8 @@
 			children = (
 				6C3721C81DE9579F00ADC776 /* libjpeg.a */,
 				6C3721C61DE9564100ADC776 /* opencv2.framework */,
-				6C3721AC1DE9503700ADC776 /* sophus */,
 				6C3720381DE94FD400ADC776 /* Eigen */,
+				6C3721AC1DE9503700ADC776 /* sophus */,
 				6C371E931DE94EA000ADC776 /* DataStructures */,
 				6C371E9A1DE94EA000ADC776 /* DepthEstimation */,
 				6C371E9F1DE94EA000ADC776 /* Tracking */,
@@ -1187,6 +1214,7 @@
 				6C4475B81DE7A1E400316B64 /* MobileLSDTests */,
 				6C4475C31DE7A1E400316B64 /* MobileLSDUITests */,
 				6C44759D1DE7A1E400316B64 /* Products */,
+				112221FD1DEA622C00626398 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1312,6 +1340,7 @@
 				TargetAttributes = {
 					6C44759B1DE7A1E400316B64 = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = 6GK264QP57;
 					};
 					6C4475B41DE7A1E400316B64 = {
 						CreatedOnToolsVersion = 7.3.1;
@@ -1565,6 +1594,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 6GK264QP57;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1574,6 +1605,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = MobileLSD/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/boost/ios",
@@ -1588,6 +1620,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 6GK264QP57;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1597,6 +1631,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = MobileLSD/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/boost/ios",
