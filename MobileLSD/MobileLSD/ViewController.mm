@@ -26,6 +26,7 @@ int count = 0;
     int cam_width;
     int cam_height;
     int runningIdx;
+    int count;
 }
 @end
 
@@ -79,8 +80,8 @@ int count = 0;
     bool doSlam = false;
     Sophus::Matrix3f K;
     K << fx, 0.0, cx, 0.0, fy, cy, 0.0, 0.0, 1.0;
-    lsd_slam::SlamSystem* system = new lsd_slam::SlamSystem(cam_width, cam_height, K, doSlam);
-    
+    system = new lsd_slam::SlamSystem(cam_width, cam_height, K, doSlam);
+    count = 0;
     // Finally show the output
     [videoCamera start];
     // Do any additional setup after loading the view, typically from a nib.
@@ -101,8 +102,10 @@ void increment_count()
 
 - (void) processImage:(cv:: Mat &)image
 {
-    boost::mutex processMutex;
-    processMutex.lock();
+    if (count < 10){
+        count++;
+        return;
+    }
 
     cv::resize(image, image, cv::Size(cam_width,cam_height));
     if(runningIdx == 0)
@@ -116,8 +119,11 @@ void increment_count()
     }
     if (!system->displayMatQueue.empty()){
         std::cout<<"queue size is "<<system->displayMatQueue.size()<<std::endl;
-        image = system->displayMatQueue.front();
-        system->displayMatQueue.pop();
+        int size = system->displayMatQueue.size();
+        for(int i = 0; i < size; ++i){
+            image = system->displayMatQueue.front();
+            system->displayMatQueue.pop();
+        }
     }
     runningIdx++;
     // Finally estimate the frames per second (FPS)
@@ -131,7 +137,6 @@ void increment_count()
     dispatch_sync(dispatch_get_main_queue(), ^{
         fpsView_.text = fps_NSStr;
     });
-    processMutex.unlock();
     
 }
 
