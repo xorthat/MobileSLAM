@@ -106,6 +106,8 @@ void increment_count()
         count++;
         return;
     }
+    boost::mutex processMutex;
+    processMutex.lock();
 
     cv::resize(image, image, cv::Size(cam_width,cam_height));
     if(runningIdx == 0)
@@ -114,8 +116,15 @@ void increment_count()
         system->randomInit(image.data, curr_time_, runningIdx);
     }
     else{
-        system->trackFrame(image.data, runningIdx , 0, curr_time_);
-        std::cout<<"index is "<<runningIdx<<std::endl;
+        try
+        {
+            system->trackFrame(image.data, runningIdx , 0, curr_time_);
+            std::cout<<"index is "<<runningIdx<<std::endl;
+        }
+        catch(Sophus::SophusException e){
+            std::cout << e.what() << std::endl;
+            return;
+        }
     }
     if (!system->displayMatQueue.empty()){
         std::cout<<"queue size is "<<system->displayMatQueue.size()<<std::endl;
@@ -137,6 +146,7 @@ void increment_count()
     dispatch_sync(dispatch_get_main_queue(), ^{
         fpsView_.text = fps_NSStr;
     });
+        processMutex.unlock();
     
 }
 
