@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1118C80F1DF79B7B00D98BCC /* scalebar.png in Resources */ = {isa = PBXBuildFile; fileRef = 1118C80E1DF79B7B00D98BCC /* scalebar.png */; };
+		1118C8111DF7AB4100D98BCC /* scalebar.png in Resources */ = {isa = PBXBuildFile; fileRef = 1118C8101DF7AB4100D98BCC /* scalebar.png */; };
 		112221FF1DEA622C00626398 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 112221FE1DEA622C00626398 /* AVFoundation.framework */; };
 		112222011DEA623400626398 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 112222001DEA623400626398 /* CoreMedia.framework */; };
 		112222031DEA623A00626398 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 112222021DEA623A00626398 /* AssetsLibrary.framework */; };
@@ -89,7 +89,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		1118C80E1DF79B7B00D98BCC /* scalebar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = scalebar.png; path = ../../../../Desktop/scalebar.png; sourceTree = "<group>"; };
+		1118C8101DF7AB4100D98BCC /* scalebar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = scalebar.png; sourceTree = "<group>"; };
 		112221FE1DEA622C00626398 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		112222001DEA623400626398 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		112222021DEA623A00626398 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
@@ -1249,8 +1249,8 @@
 				6C371E751DE94E0B00ADC776 /* main_on_images.cpp */,
 				6C3721C11DE9528800ADC776 /* SlamSystem.cpp */,
 				6C3721C21DE9528800ADC776 /* SlamSystem.h */,
-				1118C80E1DF79B7B00D98BCC /* scalebar.png */,
 				6C4475A61DE7A1E400316B64 /* ViewController.mm */,
+				1118C8101DF7AB4100D98BCC /* scalebar.png */,
 				6C4475A81DE7A1E400316B64 /* Main.storyboard */,
 				6C4475AB1DE7A1E400316B64 /* Assets.xcassets */,
 				6C4475AD1DE7A1E400316B64 /* LaunchScreen.storyboard */,
@@ -1396,7 +1396,7 @@
 				6C4475AF1DE7A1E400316B64 /* LaunchScreen.storyboard in Resources */,
 				6C3721901DE94FD400ADC776 /* CMakeLists.txt in Resources */,
 				6C37219B1DE94FD400ADC776 /* OrderingMethods in Resources */,
-				1118C80F1DF79B7B00D98BCC /* scalebar.png in Resources */,
+				1118C8111DF7AB4100D98BCC /* scalebar.png in Resources */,
 				6C3721A91DE94FD400ADC776 /* SuperLUSupport in Resources */,
 				6C3721A71DE94FD400ADC776 /* StdList in Resources */,
 				6C37219F1DE94FD400ADC776 /* QtAlignedMalloc in Resources */,
