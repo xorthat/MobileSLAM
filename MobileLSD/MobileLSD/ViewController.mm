@@ -167,7 +167,7 @@ void increment_count()
 
 - (void) processImage:(cv:: Mat &)image
 {
-    if (count < 10){
+    if (count < 20){
         count++;
         return;
     }
