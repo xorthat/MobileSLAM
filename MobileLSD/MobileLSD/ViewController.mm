@@ -134,6 +134,7 @@ void increment_count()
     std::cout << "count = " << ++count << std::endl;
 }
 
+
 - (void)restartWasPressed {
     //[videoCamera stop];
     count = 0;
