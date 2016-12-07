@@ -76,6 +76,7 @@ public:
 
 	void randomInit(uchar* image, double timeStamp, int id);
 	void gtDepthInit(uchar* image, float* depth, double timeStamp, int id);
+	void reinit();
 
 	
 
@@ -108,12 +109,15 @@ public:
 	std::vector<FramePoseStruct*, Eigen::aligned_allocator<lsd_slam::FramePoseStruct*> > getAllPoses();
 
 	std::queue<cv::Mat> displayMatQueue;
+	cv::Mat displayDepImage;
+	boost::mutex displayDepImageMutex;
 
 	float msTrackFrame, msOptimizationIteration, msFindConstraintsItaration, msFindReferences;
 	int nTrackFrame, nOptimizationIteration, nFindConstraintsItaration, nFindReferences;
 	float nAvgTrackFrame, nAvgOptimizationIteration, nAvgFindConstraintsItaration, nAvgFindReferences;
 	struct timeval lastHzUpdate;
 
+	Sim3 getSim3Mat();
 
 private:
 	inline float getRefFrameScore(float distanceSquared, float usage){
