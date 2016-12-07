@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1118C80F1DF79B7B00D98BCC /* scalebar.png in Resources */ = {isa = PBXBuildFile; fileRef = 1118C80E1DF79B7B00D98BCC /* scalebar.png */; };
 		112221FF1DEA622C00626398 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 112221FE1DEA622C00626398 /* AVFoundation.framework */; };
 		112222011DEA623400626398 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 112222001DEA623400626398 /* CoreMedia.framework */; };
 		112222031DEA623A00626398 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 112222021DEA623A00626398 /* AssetsLibrary.framework */; };
@@ -88,11 +89,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1118C80E1DF79B7B00D98BCC /* scalebar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = scalebar.png; path = ../../../../Desktop/scalebar.png; sourceTree = "<group>"; };
 		112221FE1DEA622C00626398 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		112222001DEA623400626398 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		112222021DEA623A00626398 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		112222041DEA624200626398 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		112222061DEA624A00626398 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		11CF05D11DF6596E00B5F25D /* MobileLSD.profdata */ = {isa = PBXFileReference; lastKnownFileType = file; path = MobileLSD.profdata; sourceTree = "<group>"; };
 		6C371E751DE94E0B00ADC776 /* main_on_images.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main_on_images.cpp; sourceTree = "<group>"; };
 		6C371E941DE94EA000ADC776 /* Frame.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Frame.cpp; sourceTree = "<group>"; };
 		6C371E951DE94EA000ADC776 /* Frame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Frame.h; sourceTree = "<group>"; };
@@ -497,6 +500,14 @@
 				112221FE1DEA622C00626398 /* AVFoundation.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		11CF05D01DF6596E00B5F25D /* OptimizationProfiles */ = {
+			isa = PBXGroup;
+			children = (
+				11CF05D11DF6596E00B5F25D /* MobileLSD.profdata */,
+			);
+			path = OptimizationProfiles;
 			sourceTree = "<group>";
 		};
 		6C371E931DE94EA000ADC776 /* DataStructures */ = {
@@ -1215,6 +1226,7 @@
 				6C4475C31DE7A1E400316B64 /* MobileLSDUITests */,
 				6C44759D1DE7A1E400316B64 /* Products */,
 				112221FD1DEA622C00626398 /* Frameworks */,
+				11CF05D01DF6596E00B5F25D /* OptimizationProfiles */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1237,6 +1249,7 @@
 				6C371E751DE94E0B00ADC776 /* main_on_images.cpp */,
 				6C3721C11DE9528800ADC776 /* SlamSystem.cpp */,
 				6C3721C21DE9528800ADC776 /* SlamSystem.h */,
+				1118C80E1DF79B7B00D98BCC /* scalebar.png */,
 				6C4475A61DE7A1E400316B64 /* ViewController.mm */,
 				6C4475A81DE7A1E400316B64 /* Main.storyboard */,
 				6C4475AB1DE7A1E400316B64 /* Assets.xcassets */,
@@ -1383,6 +1396,7 @@
 				6C4475AF1DE7A1E400316B64 /* LaunchScreen.storyboard in Resources */,
 				6C3721901DE94FD400ADC776 /* CMakeLists.txt in Resources */,
 				6C37219B1DE94FD400ADC776 /* OrderingMethods in Resources */,
+				1118C80F1DF79B7B00D98BCC /* scalebar.png in Resources */,
 				6C3721A91DE94FD400ADC776 /* SuperLUSupport in Resources */,
 				6C3721A71DE94FD400ADC776 /* StdList in Resources */,
 				6C37219F1DE94FD400ADC776 /* QtAlignedMalloc in Resources */,
@@ -1594,6 +1608,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_USE_OPTIMIZATION_PROFILE = YES;
 				DEVELOPMENT_TEAM = 6GK264QP57;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1620,6 +1635,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_USE_OPTIMIZATION_PROFILE = YES;
 				DEVELOPMENT_TEAM = 6GK264QP57;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
