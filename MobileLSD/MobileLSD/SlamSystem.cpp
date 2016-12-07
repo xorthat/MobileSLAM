@@ -125,6 +125,40 @@ SlamSystem::SlamSystem(int w, int h, Eigen::Matrix3f K, bool enableSLAM)
 
 }
 
+void SlamSystem::reinit(){
+
+	trackingIsGood = true;
+
+
+	currentKeyFrame =  nullptr;
+	trackingReferenceFrameSharedPT = nullptr;
+	keyFrame_replaceg = nullptr;
+	createNewKeyFrame = false;
+	delete map;
+	delete trackingReference;
+	delete mappingTrackingReference;
+
+	map = new DepthMap(width,height,K);
+
+	tracker = new SE3Tracker(width,height,K);
+	// Do not use more than 4 levels for odometry tracking
+	for (int level = 4; level < PYRAMID_LEVELS; ++level)
+		tracker->settings.maxItsPerLvl[level] = 0;
+	
+	trackingReference = new TrackingReference();
+	mappingTrackingReference = new TrackingReference();
+
+	keepRunning = true;
+	doFinalOptimization = false;
+	depthMapScreenshotFlag = false;
+	lastTrackingClosenessScore = 0;
+
+	msTrackFrame = msOptimizationIteration = msFindConstraintsItaration = msFindReferences = 0;
+	nTrackFrame = nOptimizationIteration = nFindConstraintsItaration = nFindReferences = 0;
+	nAvgTrackFrame = nAvgOptimizationIteration = nAvgFindConstraintsItaration = nAvgFindReferences = 0;
+
+}
+
 SlamSystem::~SlamSystem()
 {
 	keepRunning = false;
@@ -401,10 +435,14 @@ void SlamSystem::debugDisplayDepthMap()
 	//		1e-6 * (float)keyFrameGraph->totalPoints);
 
 
-	if(onSceenInfoDisplay)
-		printMessageOnCVImage(map->debugImageDepth, buf1, buf2);
+	if(onSceenInfoDisplay);
+		//printMessageOnCVImage(map->debugImageDepth, buf1, buf2);
 
-	displayMatQueue.push(map->debugImageDepth);
+	displayDepImageMutex.lock();
+	displayDepImage = map->debugImageDepth;
+	displayDepImageMutex.unlock();
+
+	//displayMatQueue.push(map->debugImageDepth);
 	if (displayDepthMap);
 		//Util::displayImage( "DebugWindow DEPTH", map->debugImageDepth, false );
 
@@ -676,3 +714,9 @@ void SlamSystem::trackFrame(uchar* image, unsigned int frameID, bool blockUntilM
 	}
 }
 
+Sim3 SlamSystem::getSim3Mat(){ 
+	if (keyFrame_replaceg == nullptr 
+		|| keyFrame_replaceg->pose == nullptr) return Sim3();
+
+ 	return keyFrame_replaceg->pose->getCamToWorld();
+}

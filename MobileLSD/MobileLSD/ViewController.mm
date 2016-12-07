@@ -22,10 +22,10 @@ int count = 0;
     UIImageView *imageView_; // Setup the image view
     UITextView *fpsView_; // Display the current FPS
     int64 curr_time_; // Store the current time
-    lsd_slam::SlamSystem* system;
+    lsd_slam::SlamSystem* system_;
     int cam_width;
     int cam_height;
-    int runningIdx;
+    int runningIdx_;
     int count;
     cv::Mat depthMap;
     cv::Mat displayImage;
@@ -81,7 +81,7 @@ int count = 0;
     [resetButton_ addTarget:self action:@selector(restartWasPressed) forControlEvents:UIControlEventTouchUpInside];
 
     
-    runningIdx = 0;
+    runningIdx_ = 0;
     float fx = 1.1816992757731507e+03;
     float fy = 3.3214250594664935e+02;
     float cx = 0;
@@ -89,7 +89,7 @@ int count = 0;
     bool doSlam = false;
     Sophus::Matrix3f K;
     K << fx, 0.0, cx, 0.0, fy, cy, 0.0, 0.0, 1.0;
-    system = new lsd_slam::SlamSystem(cam_width, cam_height, K, doSlam);
+    system_ = new lsd_slam::SlamSystem(cam_width, cam_height, K, doSlam);
     count = 0;
     displayImage = cv::Mat(cam_height, cam_width*2, CV_8UC3);
     depthMap = cv::Mat(cam_height, cam_width, CV_8UC3);
@@ -117,7 +117,7 @@ void increment_count()
 - (void)restartWasPressed {
     [videoCamera stop];
     count = 0;
-    runningIdx = 0;
+    runningIdx_ = 0;
     [videoCamera start];
 }
 
@@ -153,40 +153,58 @@ void increment_count()
     }
 
     //cv::resize(image, image, cv::Size(cam_width,cam_height));
-    if(runningIdx == 0)
-    {
-        std::cout<<"index is "<<runningIdx<<std::endl;
-        system->randomInit(image.data, curr_time_, runningIdx);
+    //if(runningIdx == 0)
+    //{
+    //    std::cout<<"index is "<<runningIdx<<std::endl;
+    //    system->randomInit(image.data, curr_time_, runningIdx);
+    //}
+    //else{
+    //    try
+    //    {
+    //        system->trackFrame(image.data, runningIdx , 0, curr_time_);
+    //        std::cout<<"index is "<<runningIdx<<std::endl;
+    //    }
+    //    catch(Sophus::SophusException e){
+    //        std::cout << e.what() << std::endl;
+    //        return;
+    //    }
+    //}
+    //if (!system->displayMatQueue.empty()){
+    //    std::cout<<"queue size is "<<system->displayMatQueue.size()<<std::endl;
+    //    int size = system->displayMatQueue.size();
+    //    for(int i = 0; i < size; ++i){
+    //        depthMap = system->displayMatQueue.front();
+    //        system->displayMatQueue.pop();
+    //    }
+    //}
+
+    if(runningIdx_ == 0 || !system_->trackingIsGood){
+        if (runningIdx_ != 0) system_->reinit();
+        system_->randomInit(image.data, curr_time_, runningIdx_);
     }
     else{
-        try
-        {
-            system->trackFrame(image.data, runningIdx , 0, curr_time_);
-            std::cout<<"index is "<<runningIdx<<std::endl;
-        }
-        catch(Sophus::SophusException e){
-            std::cout << e.what() << std::endl;
-            return;
-        }
+        std::cout<<"tracking"<<std::endl;
+        system_->trackFrame(image.data, runningIdx_,true,curr_time_);
     }
-    if (!system->displayMatQueue.empty()){
-        std::cout<<"queue size is "<<system->displayMatQueue.size()<<std::endl;
-        int size = system->displayMatQueue.size();
-        for(int i = 0; i < size; ++i){
-            depthMap = system->displayMatQueue.front();
-            system->displayMatQueue.pop();
-        }
-    }
+
+	system_->displayDepImageMutex.lock();	
+	depthMap = system_->displayDepImage;
+	system_->displayDepImageMutex.unlock();
+	auto sim3mat = system_->getSim3Mat();
+	auto transmat = sim3mat.translation();
+	
+
     cv::cvtColor(image, colorImage, CV_GRAY2RGB);
     colorImage.copyTo(displayImage(cv::Rect(0, 0, cam_width, cam_height)));
     depthMap.copyTo(displayImage(cv::Rect(cam_width, 0, cam_width, cam_height)));
     image = displayImage;
-    runningIdx++;
+    runningIdx_++;
+
     // Finally estimate the frames per second (FPS)
     int64 next_time = cv::getTickCount(); // Get the next time stamp
     float fps = (float)cv::getTickFrequency()/(next_time - curr_time_); // Estimate the fps
     curr_time_ = next_time; // Update the time
-    NSString *fps_NSStr = [NSString stringWithFormat:@"FPS = %2.2f",fps];
+    NSString *fps_NSStr = [NSString stringWithFormat:@"FPS = %2.2f, X:%2.2f, Y:%2.2f, Z:%2.2f",fps,transmat(0), transmat(1), transmat(2) ];
     
     // Have to do this so as to communicate with the main thread
     // to update the text display
