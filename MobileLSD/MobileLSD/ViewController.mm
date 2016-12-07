@@ -38,8 +38,8 @@ int count = 0;
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
-    cam_width = 352/2;
-    cam_height = 288/2;
+    cam_width = 352;
+    cam_height = 288;
     
     // Take into account size of camera input
     int view_width = self.view.frame.size.width;
@@ -56,7 +56,7 @@ int count = 0;
     self.videoCamera.delegate = self;
     self.videoCamera.defaultAVCaptureDevicePosition = AVCaptureDevicePositionBack;
     self.videoCamera.defaultAVCaptureVideoOrientation = AVCaptureVideoOrientationPortrait;
-    self.videoCamera.defaultFPS = 30; // Set the frame rate
+    self.videoCamera.defaultFPS = 60; // Set the frame rate
     self.videoCamera.grayscaleMode = YES; // Get grayscale
     self.videoCamera.rotateVideo = YES; // Rotate video so everything looks correct
     
@@ -73,8 +73,8 @@ int count = 0;
     [self.view addSubview:fpsView_];
     
     runningIdx = 0;
-    float fx = 3.3;
-    float fy = 3.3;
+    float fx = 1.1816992757731507e+03;
+    float fy = 3.3214250594664935e+02;
     float cx = 0;
     float cy = 0;
     bool doSlam = false;
@@ -106,8 +106,6 @@ void increment_count()
         count++;
         return;
     }
-    boost::mutex processMutex;
-    processMutex.lock();
 
     cv::resize(image, image, cv::Size(cam_width,cam_height));
     if(runningIdx == 0)
@@ -126,6 +124,7 @@ void increment_count()
             return;
         }
     }
+    bool isQueueEmpty = false;
     if (!system->displayMatQueue.empty()){
         std::cout<<"queue size is "<<system->displayMatQueue.size()<<std::endl;
         int size = system->displayMatQueue.size();
@@ -146,7 +145,6 @@ void increment_count()
     dispatch_sync(dispatch_get_main_queue(), ^{
         fpsView_.text = fps_NSStr;
     });
-        processMutex.unlock();
     
 }
 
