@@ -47,7 +47,7 @@ cv::Vec3b DepthMapPixelHypothesis::getVisualizationColor(int lastFrameID) const
 		uchar gc = g < 0 ? 0 : (g > 255 ? 255 : g);
 		uchar bc = b < 0 ? 0 : (b > 255 ? 255 : b);
 
-		return cv::Vec3b(255-rc,255-gc,255-bc);
+		return cv::Vec3b(255-bc,255-gc,255-rc);
 	}
 
 	// plot validity counter
