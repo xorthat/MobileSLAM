@@ -20,9 +20,13 @@ boost::mutex mutex;
 int count = 0;
 @interface ViewController (){
     UIImageView *imageView_; // Setup the image view
-    UITextView *fpsView_; // Display the current FPS
+	UITextView *fpsView_; // Display the current FPS
+    UITextView *avgfpsView_; // Display the current FPS
+    UITextView *translation_; // Display the current FPS
     int64 curr_time_; // Store the current time
     lsd_slam::SlamSystem* system_;
+	float max_fps_;
+	float avg_fps_;
     int cam_width;
     int cam_height;
     int runningIdx_;
@@ -75,6 +79,20 @@ int count = 0;
     [fpsView_ setTextColor:[UIColor redColor]]; // Set text to be RED
     [fpsView_ setFont:[UIFont systemFontOfSize:18]]; // Set the Font size
     [self.view addSubview:fpsView_];
+
+    avgfpsView_ = [[UITextView alloc] initWithFrame:CGRectMake(165,15,view_width,std::max(offset,35))];
+    [avgfpsView_ setOpaque:false]; // Set to be Opaque
+    [avgfpsView_ setBackgroundColor:[UIColor clearColor]]; // Set background color to be clear
+    [avgfpsView_ setTextColor:[UIColor redColor]]; // Set text to be RED
+    [avgfpsView_ setFont:[UIFont systemFontOfSize:18]]; // Set the Font size
+    [self.view addSubview:avgfpsView_];
+
+    translation_ = [[UITextView alloc] initWithFrame:CGRectMake(0,60,view_width,std::max(offset,35))];
+    [translation_ setOpaque:false]; // Set to be Opaque
+    [translation_ setBackgroundColor:[UIColor clearColor]]; // Set background color to be clear
+    [translation_ setTextColor:[UIColor redColor]]; // Set text to be RED
+    [translation_ setFont:[UIFont systemFontOfSize:18]]; // Set the Font size
+    [self.view addSubview:translation_];
     
     resetButton_ = [self simpleButton:@"Reset" buttonColor:[UIColor blackColor]];
     // Important part that connects the action to the member function buttonWasPressed
@@ -103,7 +121,9 @@ int count = 0;
     scaleView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"scalebar.png"]];
     
     [self.view addSubview:scaleView];
-    
+	curr_time_ = cv::getTickCount();
+	max_fps_ = 0;
+	avg_fps_ = 0;
     [videoCamera start];
 
 }
@@ -115,10 +135,10 @@ void increment_count()
 }
 
 - (void)restartWasPressed {
-    [videoCamera stop];
+    //[videoCamera stop];
     count = 0;
     runningIdx_ = 0;
-    [videoCamera start];
+    //[videoCamera start];
 }
 
 
@@ -203,15 +223,33 @@ void increment_count()
     // Finally estimate the frames per second (FPS)
     int64 next_time = cv::getTickCount(); // Get the next time stamp
     float fps = (float)cv::getTickFrequency()/(next_time - curr_time_); // Estimate the fps
+	max_fps_ = std::min(59.99f, std::max(fps, max_fps_));
+	
+	avg_fps_ = avg_fps_ == 0 ? fps : (avg_fps_ * runningIdx_ + fps)/(runningIdx_ + 1);
+
+
     curr_time_ = next_time; // Update the time
-    NSString *fps_NSStr = [NSString stringWithFormat:@"FPS = %2.2f, X:%2.2f, Y:%2.2f, Z:%2.2f",fps,transmat(0), transmat(1), transmat(2) ];
-    
+    NSString *fps_NSStr = [NSString stringWithFormat:@"FPS = %2.2f", fps];
+	
     // Have to do this so as to communicate with the main thread
     // to update the text display
     dispatch_sync(dispatch_get_main_queue(), ^{
         fpsView_.text = fps_NSStr;
     });
+
+    fps_NSStr = [NSString stringWithFormat:@"AVG FPS = %2.2f", avg_fps_];
+	
+    // Have to do this so as to communicate with the main thread
+    // to update the text display
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        avgfpsView_.text = fps_NSStr;
+    });
+
+    fps_NSStr = [NSString stringWithFormat:@"Camera Center X:%2.2f  Y:%2.2f  Z:%2.2f",transmat(0),transmat(1),transmat(2)];
     
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        translation_.text = fps_NSStr;
+    });
 }
 
 @end
