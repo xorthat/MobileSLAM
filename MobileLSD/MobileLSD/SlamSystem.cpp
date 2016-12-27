@@ -25,14 +25,7 @@
 #include "Tracking/Sim3Tracker.h"
 #include "DepthEstimation/DepthMap.h"
 #include "Tracking/TrackingReference.h"
-//#include "LiveSLAMWrapper.h"
 #include "util/globalFuncs.h"
-//#include "GlobalMapping/KeyFrameGraph.h"
-//#include "GlobalMapping/TrackableKeyFrameSearch.h"
-//#include "GlobalMapping/g2oTypeSim3Sophus.h"
-//#include "IOWrapper/ImageDisplay.h"
-//#include "IOWrapper/Output3DWrapper.h"
-//#include <g2o/core/robust_kernel_impl.h>
 #include "DataStructures/FrameMemory.h"
 #include "deque"
 
@@ -49,8 +42,8 @@
 using namespace lsd_slam;
 
 
-SlamSystem::SlamSystem(int w, int h, Eigen::Matrix3f K, bool enableSLAM)
-: SLAMEnabled(enableSLAM), relocalizer(w,h,K)
+SlamSystem::SlamSystem(int w, int h, Eigen::Matrix3f K)
+:relocalizer(w,h,K)
 {
 	if(w%16 != 0 || h%16!=0)
 	{
@@ -83,25 +76,10 @@ SlamSystem::SlamSystem(int w, int h, Eigen::Matrix3f K, bool enableSLAM)
 	mappingTrackingReference = new TrackingReference();
 
 
-	if(SLAMEnabled)
-	{
-		//trackableKeyFrameSearch = new TrackableKeyFrameSearch(keyFrameGraph,w,h,K);
-		//constraintTracker = new Sim3Tracker(w,h,K);
-		//constraintSE3Tracker = new SE3Tracker(w,h,K);
-		//newKFTrackingReference = new TrackingReference();
-		//candidateTrackingReference = new TrackingReference();
-		constraintSE3Tracker = 0;
-		constraintTracker = 0;
-		newKFTrackingReference = 0;
-		candidateTrackingReference = 0;
-	}
-	else
-	{
-		constraintSE3Tracker = 0;
-		constraintTracker = 0;
-		newKFTrackingReference = 0;
-		candidateTrackingReference = 0;
-	}
+	constraintSE3Tracker = 0;
+	constraintTracker = 0;
+	newKFTrackingReference = 0;
+	candidateTrackingReference = 0;
 
 
 
@@ -111,12 +89,6 @@ SlamSystem::SlamSystem(int w, int h, Eigen::Matrix3f K, bool enableSLAM)
 	lastTrackingClosenessScore = 0;
 
 	thread_mapping = boost::thread(&SlamSystem::mappingThreadLoop, this);
-
-	if(SLAMEnabled)
-	{
-	}
-
-
 
 	msTrackFrame = msOptimizationIteration = msFindConstraintsItaration = msFindReferences = 0;
 	nTrackFrame = nOptimizationIteration = nFindConstraintsItaration = nFindReferences = 0;
@@ -222,49 +194,6 @@ void SlamSystem::mappingThreadLoop()
 	printf("Exited mapping thread \n");
 }
 
-//void SlamSystem::finalize()
-//{
-//	return;
-//	printf("Finalizing Graph... finding final constraints!!\n");
-//
-//	lastNumConstraintsAddedOnFullRetrack = 1;
-//	while(lastNumConstraintsAddedOnFullRetrack != 0)
-//	{
-//		doFullReConstraintTrack = true;
-//		usleep(200000);
-//	}
-//
-//
-//	printf("Finalizing Graph... optimizing!!\n");
-//	doFinalOptimization = true;
-//	newConstraintMutex.lock();
-//	newConstraintAdded = true;
-//	newConstraintCreatedSignal.notify_all();
-//	newConstraintMutex.unlock();
-//	while(doFinalOptimization)
-//	{
-//		usleep(200000);
-//	}
-//
-//
-//	printf("Finalizing Graph... publishing!!\n");
-//	unmappedTrackedFramesMutex.lock();
-//	unmappedTrackedFramesSignal.notify_one();
-//	unmappedTrackedFramesMutex.unlock();
-//	while(doFinalOptimization)
-//	{
-//		usleep(200000);
-//	}
-//	boost::unique_lock<boost::mutex> lock(newFrameMappedMutex);
-//	newFrameMappedSignal.wait(lock);
-//	newFrameMappedSignal.wait(lock);
-//
-//	usleep(200000);
-//	printf("Done Finalizing Graph.!!\n");
-//}
-
-
-
 
 
 void SlamSystem::requestDepthMapScreenshot(const std::string& filename)
@@ -281,10 +210,6 @@ void SlamSystem::createNewCurrentKeyframe(std::shared_ptr<Frame> newKeyframeCand
 		printf("CREATE NEW KF %d from %d\n", newKeyframeCandidate->id(), currentKeyFrame->id());
 
 
-	if(SLAMEnabled)
-	{
-		// add NEW keyframe to id-lookup
-	}
 
 	// propagate & make new.
 	map->createKeyFrame(newKeyframeCandidate.get());
@@ -422,17 +347,6 @@ void SlamSystem::debugDisplayDepthMap()
 			map->msUpdate, map->nAvgUpdate,
 			msTrackFrame, nAvgTrackFrame,
 			currentKeyFrame->numFramesTrackedOnThis, currentKeyFrame->numMappedOnThis, (int)unmappedTrackedFrames.size());
-
-	//snprintf(buf2,200,"dens %2.0f%%; good %2.0f%%; scale %2.2f; res %2.1f/; usg %2.0f%%; Map: %d F, %d KF, %d E, %.1fm Pts",
-	//		100*currentKeyFrame->numPoints/(float)(width*height),
-	//		100*tracking_lastGoodPerBad,
-	//		scale,
-	//		tracking_lastResidual,
-	//		100*tracking_lastUsage,
-	//		(int)keyFrameGraph->allFramePoses.size(),
-	//		keyFrameGraph->totalVertices,
-	//		(int)keyFrameGraph->edgesAll.size(),
-	//		1e-6 * (float)keyFrameGraph->totalPoints);
 
 
 	if(onSceenInfoDisplay);

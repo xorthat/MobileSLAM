@@ -15,9 +15,7 @@
 #include "SlamSystem.h"
 
 
-boost::mutex mutex;
 
-int count = 0;
 @interface ViewController (){
     UIImageView *imageView_; // Setup the image view
 	UITextView *fpsView_; // Display the current FPS
@@ -30,17 +28,28 @@ int count = 0;
     int cam_width;
     int cam_height;
     int runningIdx_;
-    int count;
+    int count_;
     cv::Mat depthMap;
     cv::Mat displayImage;
     cv::Mat colorImage;
     UIButton *resetButton_;
+	int skip_frame_; //buffer size for the camera to start
 }
 @end
 
 @implementation ViewController
 
 @synthesize videoCamera;
+
+- (void) getK(Sophus::Matrix3f& K){
+	% calibrated for iPad2
+    float fx = 1.1816992757731507e+03;
+    float fy = 3.3214250594664935e+02;
+    float cx = 0;
+    float cy = 0;
+    K << fx, 0.0, cx, 0.0, fy, cy, 0.0, 0.0, 1.0;
+
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -49,7 +58,7 @@ int count = 0;
     cam_width = 352;
     cam_height = 288;
     
-    // Take into account size of camera input
+    // Take into account_ size of camera input
     int view_width = self.view.frame.size.width;
     int view_height = (int)(cam_height*self.view.frame.size.width/cam_width)/2;
     int offset = (self.view.frame.size.height - view_height)/2;
@@ -69,7 +78,7 @@ int count = 0;
     self.videoCamera.rotateVideo = YES; // Rotate video so everything looks correct
     
     // Choose these depending on the camera input chosen
-        self.videoCamera.defaultAVCaptureSessionPreset = AVCaptureSessionPreset352x288;
+    self.videoCamera.defaultAVCaptureSessionPreset = AVCaptureSessionPreset352x288;
 //    self.videoCamera.defaultAVCaptureSessionPreset = AVCaptureSessionPreset640x480;
     
     // Finally add the FPS text to the view
@@ -100,15 +109,10 @@ int count = 0;
 
     
     runningIdx_ = 0;
-    float fx = 1.1816992757731507e+03;
-    float fy = 3.3214250594664935e+02;
-    float cx = 0;
-    float cy = 0;
-    bool doSlam = false;
     Sophus::Matrix3f K;
-    K << fx, 0.0, cx, 0.0, fy, cy, 0.0, 0.0, 1.0;
-    system_ = new lsd_slam::SlamSystem(cam_width, cam_height, K, doSlam);
-    count = 0;
+	getK(K);
+    system_ = new lsd_slam::SlamSystem(cam_width, cam_height, K);
+    count_ = 0;
     displayImage = cv::Mat(cam_height, cam_width*2, CV_8UC3);
     depthMap = cv::Mat(cam_height, cam_width, CV_8UC3);
     colorImage = cv::Mat(cam_height, cam_width, CV_8UC3);
@@ -121,23 +125,18 @@ int count = 0;
     scaleView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"scalebar.png"]];
     
     [self.view addSubview:scaleView];
-	curr_time_ = cv::getTickCount();
+	curr_time_ = cv::getTickcount();
 	max_fps_ = 0;
 	avg_fps_ = 0;
+	skip_frame_ = 20;
     [videoCamera start];
 
-}
-
-void increment_count()
-{
-    boost::unique_lock<boost::mutex> lock(mutex);
-    std::cout << "count = " << ++count << std::endl;
 }
 
 
 - (void)restartWasPressed {
     //[videoCamera stop];
-    count = 0;
+    count_ = 0;
     runningIdx_ = 0;
     //[videoCamera start];
 }
@@ -168,36 +167,11 @@ void increment_count()
 
 - (void) processImage:(cv:: Mat &)image
 {
-    if (count < 20){
-        count++;
+    if (count_ < skip_frame_){
+        count_++;
         return;
     }
 
-    //cv::resize(image, image, cv::Size(cam_width,cam_height));
-    //if(runningIdx == 0)
-    //{
-    //    std::cout<<"index is "<<runningIdx<<std::endl;
-    //    system->randomInit(image.data, curr_time_, runningIdx);
-    //}
-    //else{
-    //    try
-    //    {
-    //        system->trackFrame(image.data, runningIdx , 0, curr_time_);
-    //        std::cout<<"index is "<<runningIdx<<std::endl;
-    //    }
-    //    catch(Sophus::SophusException e){
-    //        std::cout << e.what() << std::endl;
-    //        return;
-    //    }
-    //}
-    //if (!system->displayMatQueue.empty()){
-    //    std::cout<<"queue size is "<<system->displayMatQueue.size()<<std::endl;
-    //    int size = system->displayMatQueue.size();
-    //    for(int i = 0; i < size; ++i){
-    //        depthMap = system->displayMatQueue.front();
-    //        system->displayMatQueue.pop();
-    //    }
-    //}
 
     if(runningIdx_ == 0 || !system_->trackingIsGood){
         if (runningIdx_ != 0) system_->reinit();
