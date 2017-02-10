@@ -1,56 +1,36 @@
-# Acknowledgements:  
+#### Acknowledgements:  
 This repository contains code from https://github.com/tum-vision/lsd_slam which we are modifying for a term project.  Many thanks go out to the TUM Vision Group. The methodogy for this method, LSD-SLAM, can be found in the following paper:
 
 LSD-SLAM: Large-Scale Direct Monocular SLAM, J. Engel, T. Schöps, D. Cremers, ECCV '14
 
+#### Pre-requisites: xcode 8.0, opencv, boost, sophus, Eigen
+Please make sure xcode >= 8.0 is install in your computer.
+
+Please follow the link below to install opencv ios:
+http://docs.opencv.org/2.4/doc/tutorials/introduction/ios_install/ios_install.html
+
+boost, sophus and Eigen are included in this repository.
 
 # Title: 
-Direct Visual Odometry on Mobile Device
+Direct Visual Odometry on Mobile Device. Please see the demo: https://www.youtube.com/watch?v=gOveXpLiBqw.
 
-# Team: 
-Jennifer Lake & Guanhang Wu
+# Function: 
+The code has been test with iPad 2 and iPhone5. 
+It could be running **realtime 30fps**in **iPad 2**  
+and **15fps** in **iPhone5**, which is released in 2012.
 
-# Summary: 
-For this project, we want to implement direct method visual odemetry algorithm for ios device. Specifically, estimating a Semi\-Dense Depth Map of the scene and reconstruct a 3D Mesh.
 
-# Background: 
-Our project will utilize the computation power of the modern SOC on the mobile device. Direct methods are known for being computationally intensive. Paper[1] discribed a way to estimate semi-dense map, which reduces the computation dramatically. As the computation power grows, the visual odometry algorithm could be running in real-time in a modern mobile device. 
+Please see the link below for detailed descriptions for each device:
 
-# The Challenge: 
-There is no direct method implemented for ios device at this moment. We need to implement the tracking, depth map estimation algorithm by ourselves. In addition, real-time visual odometry needs to be modified to run in a multi-threaded environment.
+iPad 2: https://www.amazon.com/Factory-Unlocked-Apple-Wi-Fi-Silver/dp/B00N086XAA/ref=sr_1_4?s=wireless&ie=UTF8&qid=1486637763&sr=1-4&keywords=Apple+iPad+2)
 
-# Goals & Deliverables: 
-The goal for this project is to implement the direct visual odometry algorithm on the ios device.
-We will try to make the algorithm running in the real-time. If that is not permissible in the time allowed, we will explore where the algorithm creates bottlenecks and try to mitigate some of these.  By the end of this project, we should be able to show which parts of the algorithm are creating bottlenecks, show some performance improvement, and be able to explain how in theory we could make this algorithm realtime. Futhermore if there is time, we want to add virtual object on the detected 3D surface.
+iPhone5: https://www.amazon.com/Apple-iPhone-16GB-Certified-Refurbished/dp/B00WZR5ULU/ref=sr_1_4?s=wireless&ie=UTF8&qid=1486637722&sr=1-4&keywords=Apple+iPhone+5.
 
-# Original Schedule: 
+# Team:
+Guanhang Wu & Jennifer Lake
 
-Week 1 (November 6th- 12th): Port existing C++ code in xcode project
+# Description:
+We won the second best project in Advanced Computer Vision Apps class at CMU. 
+Please see our post: Mobile_LSD_Poster.pdf and paper: Mobile_LSD_Report.pdf 
+for implmentation and performance details.
 
-Week 2 (November 13th - 20th): Performance test existing code, identify bottlenecks and possible solutions (Project checkpoint due November 16th)
-
-Week 3 (November 21st - 27th): Implement optimizations
-
-Week 4 (Novemeber 28th - December 3rd): Performance test optimized code, identify further refinements, and bottlenecks
-
-Week 5 (December 4th - December 10th): Create Presentation and Write Report (Presentation due December 8th, Report due December 9th)
-
-# Detailed Revised Schedule: 
-
-(November 13th-16th): Remove ROS dependencies (Jenna), Remove unnecessary algorithm components (Geoff)
-
-(November 17th-19th): Ensure system is working correctly (both), performance testing [desktop baseline] (both)
-
-(November 20th-23rd): Port algorithm to ios, camera acquisition (Jenna), output display (Geoff)
-
-(November 24th-26th): performance testing [ios baseline] (both), 3rd party library identification & implementation (both)
-
-(November 27th-30th): performance testing [optimization round 1] (both), SIMD optimizations (Jenna), additional optimizations (Geoff)
-
-(December 1st-3rd): performance testing [optimization round 2] (both), buffer
-
-(December 4th-7th): Create presentation and write report (see sharelatex and google slides for assigned sections)
-
-(December 8th-9th): Final edits on report (both)
-
-[1] T. Schöps, J. Engel, D. Cremers, Semi-Dense Visual Odometry for AR on a Smartphone, In International Symposium on Mixed and Augmented Reality, 2014.
